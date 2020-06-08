@@ -1,0 +1,106 @@
+<%-include('header')%>
+        
+        <h1><%-cidade[0].name%></h1>
+        
+
+        <div id="wrapper">
+                <div class="left">
+                        <br><br>
+                        <ul>
+                                <li>This page shows paving types for the city of <%-cidade[0].name%>. The map below shows 
+                                classifications results for each location (independent of its street) used in our test dataset. It is possible to navigate using 
+                                Google Street View tool to see each location used in our dataset
+                                <li>The table below the map shows the classification results for each street, considering all of its 
+                                locations in our dataset. Note that some locations within the same street may have different paving types
+                                <li>This page also shows the statistics of paved and unpaved streets for the city of <%-cidade[0].name%>
+                                <li>The dataset of <%-cidade[0].name%> can be downloaded <a href="https://drive.google.com/open?id=1Yf2_HeD-vlPFoibPesr-e2fK-wcgcBt_">here</a></li>
+                        </ul>
+                </div>
+                <div class = "right" id="piechart"></div>
+              </div>
+        
+       
+
+        
+        
+        <h2>Map with classifications for each <u>location:</u></h2>
+        <%-include('map')%>
+
+        
+
+        <br><br>
+        
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        
+        <script type="text/javascript">
+
+                let pav;
+                let unp;
+                function param(paved,stone,unpaved){
+                        console.log(paved+stone)
+                        console.log(unpaved)
+                        pav = paved+stone;
+                        unp = unpaved;
+                }
+
+                // Load google charts
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+                
+                // Draw the chart and set the chart values
+                function drawChart() {
+                  var data = google.visualization.arrayToDataTable([
+                  ['Paving type', 'number of streets'],
+                  ['Paved', pav],
+                  ['Unpaved', unp]
+                ]);
+                
+                  // Optional; add a title and set the width and height of the chart
+                  var options = {'title':'Proportion of paving types per street', 'width':550, 'height':300};
+                
+                  // Display the chart inside the <div> element with id="piechart"
+                  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                  chart.draw(data, options);
+                }
+        </script>
+        <script type ='text/javascript'>param(<%- num_ruas_pav[0]['count(id)'] %>, <%-num_ruas_sto[0]['count(id)']%>, <%- num_ruas_unp[0]['count(id)']  %> )</script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <h2>Classification for each <u>street</u>, considering all of its locations:</h2>
+        <div class="table-wrapper-scroll-y my-custom-scrollbar tableFixHead">
+               
+                <table class="table table-striped">
+                <thead>
+                        <tr>
+                        <th class="th-sm">Street name
+
+                        </th>
+                        <th class="th-sm">Paving type
+
+                        </th>
+                        
+                        </tr>
+                </thead>
+                <tbody>
+                        <% ruas.forEach( rua => {%>
+                        <tr>
+                                <td> <%-rua.name%> </td> 
+                                <td>
+                                <%if(rua.pav_type == 1 || rua.pav_type == 2){%>
+                                        Paved<br>
+                                <%}else{%>
+                                        Unpaved<br>
+                                <%}%>
+                                </td>
+                        </tr>
+
+                        <%}) %>
+                        
+                        
+                </table>
+        </div>
+        
+        
+        
+     
+       
+<%-include('footer')%>

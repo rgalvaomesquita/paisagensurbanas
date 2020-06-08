@@ -1,0 +1,20 @@
+
+<%-include('header')%>
+
+        
+        <h2>Cities:</h2>
+        
+        <div>
+                <% cidades.forEach( cidade => {%>
+
+                        <a href="cidade/<%-cidade.id%>" > <%-cidade.name%> </a> <br>
+
+
+                <%}) %>
+                
+                
+        </div>
+
+        
+
+<%-include('footer')%>
