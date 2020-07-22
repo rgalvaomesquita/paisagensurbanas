@@ -74,8 +74,8 @@
           <script type ='text/javascript'>addCircle(<%-elem.lat%>, <%-elem.lng%>, <%-elem.pav_type%> )</script>
   <%})%>
 
-
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCimjCS4dSenUZPXTKHlGZPKEWWZtheewk&callback=initMap"
+  <%-console.log(GMAPS_API_KEY) %>
+  <script src='https://maps.googleapis.com/maps/api/js?key='<%-GMAPS_API_KEY %>'&callback=initMap'
   async defer></script>
 
   
