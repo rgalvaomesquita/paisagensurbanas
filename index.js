@@ -89,9 +89,9 @@ app.get('/cidade/:id',async(request,response) => {
     const num_ruas_sto = await streets.countPavTypeByCity(request.params.id,2)
     //const num_ruas_unp = await client.query(`select count(id) from ruas where tipo_pav = 3 and fk_cidade_id = $1::integer`, [request.params.id])
     const num_ruas_unp = await streets.countPavTypeByCity(request.params.id,3)
-    const GMAPS_API_KEY = process.env.GMAPS_API_KEY
+    const gmaps_url = `https://maps.googleapis.com/maps/api/js?key=${process.env.GMAPS_API_KEY}&callback=initMap`
     console.log('GMAPS_API_KEY',GMAPS_API_KEY)
-    response.render('cidade', {cidade,ruas,locs, num_ruas_pav, num_ruas_sto, num_ruas_unp, GMAPS_API_KEY })
+    response.render('cidade', {cidade,ruas,locs, num_ruas_pav, num_ruas_sto, num_ruas_unp, gmaps_url })
     
 // await client.end()
   } catch (err) {
